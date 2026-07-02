@@ -6,12 +6,12 @@
 
 Audit release ownership notes for decision maker, backup, and approval evidence. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
 
-## Input Contract 45
+## Input Contract
 
 Accepts release owner note. The reader supports plain text, JSON, JSONL, and CSV so the
 tool can fit into scripts, CI jobs, and review exports.
 
-## CLI Walkthrough 45
+## CLI Walkthrough
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -20,7 +20,7 @@ release-owner-check examples/sample.txt --json --fail-on medium
 python -m release_owner_check --help
 ```
 
-## Rule Surface 45
+## Rule Surface
 
 | Rule | Severity | Meaning |
 |---|---:|---|
@@ -28,7 +28,7 @@ python -m release_owner_check --help
 | `missing-backup` | medium | backup missing |
 | `missing-approval` | low | approval missing |
 
-## Validation Notes 45
+## Validation Notes
 
 ```bash
 ruff check .
