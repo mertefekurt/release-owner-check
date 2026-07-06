@@ -1,48 +1,45 @@
-# release-owner-check
+# Release Owner Check
 
-> Audit release ownership notes for decision maker, backup, and approval evidence.
+![Release Owner Check cover](assets/readme-cover.svg)
 
-## Review card Overview
+> Audit release ownership notes for decision maker, backup, and approval evidence
 
-Audit release ownership notes for decision maker, backup, and approval evidence. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
+![stack](https://img.shields.io/badge/stack-Python-16a34a?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-dc2626?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-7c3aed?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-0891b2?style=flat-square)
 
-## Input Contract
+## At a glance
 
-Accepts release owner note. The reader supports plain text, JSON, JSONL, and CSV so the
-tool can fit into scripts, CI jobs, and review exports.
+| Area | Detail |
+| --- | --- |
+| Focus | release planning |
+| Command | `release-owner-check` |
+| Formats | text, JSON, JSONL, CSV |
+| Output | Markdown table or JSON |
 
-## CLI Walkthrough
+## What it checks
+
+| Rule | Severity | What it catches |
+| --- | --- | --- |
+| `unknown-owner` | high | release owner missing |
+| `missing-backup` | medium | backup missing |
+| `missing-approval` | low | approval missing |
+
+## Try it locally
 
 ```bash
 python -m pip install -e ".[dev]"
 release-owner-check examples/sample.txt
 release-owner-check examples/sample.txt --json --fail-on medium
-python -m release_owner_check --help
 ```
 
-## Rule Surface
+## Notes from the code
 
-| Rule | Severity | Meaning |
-|---|---:|---|
-| `unknown-owner` | high | release owner missing |
-| `missing-backup` | medium | backup missing |
-| `missing-approval` | low | approval missing |
+`rules.py` keeps the project policy explicit, while `core.py` handles parsing and report rendering. The CLI stays thin on purpose so the checks are easy to test.
 
-## Validation Notes
+## Verify
 
 ```bash
+python -m pip install -e ".[dev]"
 ruff check .
 pytest
 python -m release_owner_check --help
 ```
-
-Example risky input:
-
-```text
-release owner unknown backup none approval missing
-```
-
-Architecture: `cli.py` handles arguments, `core.py` reads and evaluates records, and
-`rules.py` keeps the project-specific policy explicit.
-
-License: MIT.
