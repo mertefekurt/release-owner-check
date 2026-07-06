@@ -1,45 +1,36 @@
-# Release Owner Check
-
 ![Release Owner Check cover](assets/readme-cover.svg)
+
+# Release Owner Check
 
 > Audit release ownership notes for decision maker, backup, and approval evidence
 
-![stack](https://img.shields.io/badge/stack-Python-16a34a?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-dc2626?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-7c3aed?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-0891b2?style=flat-square)
+This is a review desk for release planning. The useful part is not a dashboard; it is the tiny repeatable moment where vague records become specific findings.
 
-## At a glance
+## Finding catalog for `release-owner-check`
 
-| Area | Detail |
-| --- | --- |
-| Focus | release planning |
-| Command | `release-owner-check` |
-| Formats | text, JSON, JSONL, CSV |
-| Output | Markdown table or JSON |
-
-## What it checks
-
-| Rule | Severity | What it catches |
+| Finding | Level | Why it matters |
 | --- | --- | --- |
 | `unknown-owner` | high | release owner missing |
 | `missing-backup` | medium | backup missing |
 | `missing-approval` | low | approval missing |
 
-## Try it locally
+## Try the sample
 
 ```bash
+git clone https://github.com/mertefekurt/release-owner-check.git
+cd release-owner-check
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -e ".[dev]"
+```
+
+```bash
 release-owner-check examples/sample.txt
-release-owner-check examples/sample.txt --json --fail-on medium
+release-owner-check examples/sample.txt --json
 ```
 
-## Notes from the code
+## Reading the output
 
-`rules.py` keeps the project policy explicit, while `core.py` handles parsing and report rendering. The CLI stays thin on purpose so the checks are easy to test.
-
-## Verify
-
-```bash
-python -m pip install -e ".[dev]"
-ruff check .
-pytest
-python -m release_owner_check --help
-```
+- Markdown is meant for humans reviewing a change.
+- JSON is meant for CI, scripts, or saved reports.
+- `--fail-on` lets the repo decide how strict a gate should be.
